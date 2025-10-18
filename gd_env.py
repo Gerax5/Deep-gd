@@ -20,7 +20,6 @@ class GeometryEnv:
         self.is_jumping = False
         self.obstacle_speed = 6
         self.obstacles = []
-        # Patrones de obstáculos
         self.patterns = [
             ["bloque"],
             ["pincho"],
@@ -71,19 +70,13 @@ class GeometryEnv:
     # --------------------------
     # Estado
     # --------------------------
-     # --------------------------
-    # Estado (mejorado)
-    # --------------------------
     def get_state(self):
-        # Obtener los dos obstáculos más cercanos delante del jugador
         obs = [o for o in self.obstacles if o[0] + o[3] >= self.player_x]
         obs_sorted = sorted(obs, key=lambda o: o[0])
 
-        # Si no hay obstáculos, devolver vector vacío
         if not obs_sorted:
             return np.zeros(9, dtype=np.float32)
 
-        # Primer obstáculo
         ox, oy, tipo, ow, oh = obs_sorted[0]
         dist = (ox - (self.player_x + self.player_size)) / self.WIDTH
         vy = self.vel_y / 15.0
@@ -91,11 +84,9 @@ class GeometryEnv:
         tipo_idx = {"pincho": 0.0, "bloque": 0.5, "bloqueXL": 1.0}[tipo]
         height_ratio = oh / 60.0
 
-        # 🔹 Nuevo: tiempo estimado hasta el obstáculo
         time_to_obstacle = (ox - (self.player_x + self.player_size)) / self.obstacle_speed
         time_to_obstacle = np.clip(time_to_obstacle / 100.0, 0.0, 1.0)
 
-        # 🔹 Nuevo: predicción de caída si salta ahora
         predicted_y = self.player_y
         vel = self.jump_force
         for t in range(15):
@@ -106,7 +97,6 @@ class GeometryEnv:
                 break
         landing_y_diff = (self.ground_y - predicted_y) / self.HEIGHT
 
-        # 🔹 Segundo obstáculo (visión a futuro)
         if len(obs_sorted) > 1:
             ox2, oy2, tipo2, ow2, oh2 = obs_sorted[1]
             dist2 = (ox2 - (self.player_x + self.player_size)) / self.WIDTH
@@ -114,7 +104,6 @@ class GeometryEnv:
         else:
             dist2, tipo2_idx = 1.0, 0.0
 
-        # 🔹 Estado final (9 valores)
         return np.array([
             dist, vy, on_ground, tipo_idx, height_ratio,
             time_to_obstacle, landing_y_diff,
@@ -127,29 +116,24 @@ class GeometryEnv:
     def step(self, action):
         reward, done = 0.0, False
 
-        # Acción: 1 = saltar
         if action == 1 and not self.is_jumping:
             self.vel_y = self.jump_force
             self.is_jumping = True
 
-        # Física del jugador
         self.player_y += self.vel_y
         self.vel_y += self.gravity
         if self.player_y >= self.ground_y:
             self.player_y = self.ground_y
             self.is_jumping = False
 
-        # Mover obstáculos
         for obs in self.obstacles:
             obs[0] -= self.obstacle_speed
 
-        # 🔹 NUEVO: detectar pinchos superados
         passed_spikes = 0
         for ox, oy, tipo, ow, oh in self.obstacles:
             if tipo == "pincho" and ox + ow < self.player_x and not hasattr(self, "passed_ids"):
                 self.passed_ids = set()
             if tipo == "pincho" and ox + ow < self.player_x:
-                # Crear ID único del obstáculo
                 obs_id = id(obs)
                 if obs_id not in self.passed_ids:
                     self.passed_ids.add(obs_id)
@@ -163,10 +147,8 @@ class GeometryEnv:
             self.obstacles.extend(self._generate_pattern(self.next_x))
             self.next_x += random.randint(200, 400)
 
-        # Eliminar viejos
         self.obstacles = [o for o in self.obstacles if o[0] > -60]
 
-        # Colisiones
         for ox, oy, tipo, ow, oh in self.obstacles:
             if tipo == "pincho":
                 px_center = self.player_x + self.player_size / 2
