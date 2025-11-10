@@ -7,7 +7,7 @@ from utils_visual import FrameStacker, render_env
 from ModelHybrid import HybridAgent
 
 device = torch.device("cpu")
-checkpoint_path = "geometry_dqn_hybrid.pth"
+checkpoint_path = "geometry_dqn_hybrid2.pth"
 
 env = GeometryEnv()
 fs = FrameStacker(k=4, out_size=(84,84), grayscale=True)

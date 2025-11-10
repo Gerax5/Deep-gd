@@ -11,7 +11,7 @@ from utils_visual import FrameStacker, render_env
 from ModelHybrid import HybridAgent
 
 
-OUTPUT_VIDEO = "gradcam_hybrid.gif"
+OUTPUT_VIDEO = "gradcam_hybrid2.gif"
 FRAME_SIZE = (600, 200)
 EPISODE_STEPS = 300
 SAVE_VIDEO = True
@@ -19,7 +19,7 @@ SAVE_VIDEO = True
 env = GeometryEnv()
 fs = FrameStacker(k=4, out_size=(84, 84), grayscale=True)
 agent = HybridAgent(state_size=len(env.get_state()), in_channels=4, action_size=2)
-agent.model.load_state_dict(torch.load("geometry_dqn_hybrid.pth", map_location="cpu"))
+agent.model.load_state_dict(torch.load("geometry_dqn_hybrid2.pth", map_location="cpu"))
 agent.model.eval()
 
 cam = GradCAM(agent.model.cnn, target_layer="2")  
