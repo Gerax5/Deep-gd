@@ -5,7 +5,7 @@ from gd_env import GeometryEnv
 from model import DQN
 
 # === CARGA DEL MODELO ENTRENADO ===
-checkpoint_path = "Deep-gd/geometry_dqn.pth"
+checkpoint_path = "./geometryDQN_Savefile.pth"
 device = torch.device("cpu")
 
 # Crear entorno para conocer tamaño del estado
@@ -18,7 +18,7 @@ policy = DQN(state_dim, n_actions)
 policy.load_state_dict(torch.load(checkpoint_path, map_location=device))
 policy.eval()
 
-print("✅ Modelo cargado correctamente.\n")
+print("Modelo cargado correctamente.\n")
 
 # === CONFIGURACIÓN DE PYGAME ===
 pygame.init()
