@@ -28,8 +28,11 @@ class GeometryEnv:
             ["pincho", "pincho", "pincho"],
             ["bloque", "pincho", "pincho"],
             ["bloque","pincho", "pincho", "pincho", "bloqueXL"],
-            ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho"], 
-            ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho", "bloque", "pincho", "pincho", "pincho", "bloque"]
+            ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho"],
+            # ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho", "bloque", "pincho", "pincho", "pincho", "bloque"]
+            # ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho", "bloque"],
+            # ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho", "bloqueXL"],
+            # ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho", "bloqueXL","pincho", "pincho", "pincho","pincho", "bloqueXL"],
         ]
         self.reset()
 
@@ -145,7 +148,7 @@ class GeometryEnv:
         # Generar nuevos patrones
         if self.obstacles and self.obstacles[-1][0] < self.WIDTH - 250:
             self.obstacles.extend(self._generate_pattern(self.next_x))
-            self.next_x += random.randint(200, 400)
+            self.next_x += random.randint(140, 200)
 
         self.obstacles = [o for o in self.obstacles if o[0] > -60]
 
@@ -160,13 +163,16 @@ class GeometryEnv:
 
             elif tipo in ["bloque", "bloqueXL"]:
                 if (self.player_x + self.player_size > ox and self.player_x < ox + ow):
-                    if (self.player_y + self.player_size > oy and
-                        self.player_y + self.player_size - self.vel_y <= oy):
+                    # Colisión por arriba (aterriza en el bloque)
+                    if (self.player_y + self.player_size > oy and 
+                        self.player_y < oy and 
+                        self.vel_y >= 0):
                         self.player_y = oy - self.player_size
                         self.vel_y = 0
                         self.is_jumping = False
                         reward += 2.0
-                    elif self.player_y + self.player_size > oy:
+                    # Colisión lateral o desde abajo
+                    elif (self.player_y + self.player_size > oy):
                         reward = -5
                         done = True
                         break
