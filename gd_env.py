@@ -21,19 +21,19 @@ class GeometryEnv:
         self.obstacle_speed = 6
         self.obstacles = []
         self.patterns = [
-            # ["bloque"],
-            # ["pincho"],
-            # ["bloque", "bloque", "bloque"],
-            # ["pincho", "bloque", "pincho"],
-            # ["pincho", "pincho", "pincho"],
-            # ["bloque", "pincho", "pincho"],
-            # ["bloque","pincho", "pincho", "pincho", "bloqueXL"],
-            # ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho"],
-            ["pincho", "pincho", "pincho", "bloque", "pincho", "pincho", "pincho"],
-            ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho", "bloque", "pincho", "pincho", "pincho", "bloque"],
-            ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho", "bloque"],
-            ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho", "bloqueXL"],
-            ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho", "bloqueXL","pincho", "pincho", "pincho","pincho", "bloqueXL"],
+            ["bloque"],
+            ["pincho"],
+            ["bloque", "bloque", "bloque"],
+            ["pincho", "bloque", "pincho"],
+            ["pincho", "pincho", "pincho"],
+            ["bloque", "pincho", "pincho"],
+            ["bloque","pincho", "pincho", "pincho", "bloqueXL"],
+            ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho"],
+            # ["pincho", "pincho", "pincho", "bloque", "pincho", "pincho", "pincho"],
+            # ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho", "bloque", "pincho", "pincho", "pincho", "bloque"],
+            # ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho", "bloque"],
+            # ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho", "bloqueXL"],
+            # ["bloque", "pincho", "pincho", "pincho", "bloqueXL", "pincho", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho","pincho", "bloque", "pincho", "pincho", "pincho", "bloqueXL","pincho", "pincho", "pincho","pincho", "bloqueXL"],
         ]
         self.reset()
 
